@@ -31,7 +31,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       # ---------------- Step 2 : Set up Python ----------------
-      # Installs Python 3.13.0 so GitHub can run your Scripts
+      # Installs Python 3.10.0 so GitHub can run your Scripts
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
