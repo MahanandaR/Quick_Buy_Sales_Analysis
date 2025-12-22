@@ -14,7 +14,7 @@
 - [GitHub Actions](#github-actions)
 - [Power BI Dashboard](#power-bi-dashboard)
 - [Results & Insights](#results--insights)
-- [How To Create PostgreSQL Database on Neon](#how-to)
+- [How To Create PostgreSQL Database on Neon](#how-to-create-postgresql-database-on-neon)
 - [Folder Structure](#folder-structure)
 - [License](#license)
 
@@ -1080,7 +1080,10 @@ It includes pipeline performance metrics like runtime, automation frequency and 
 > [!NOTE]
 > This setup ensures that the latest data is always available for Power BI dashboards, no manual refresh required.
 
+
+
 <img width="1701" height="542" alt="image" src="https://github.com/user-attachments/assets/fa9ad692-09bb-4608-b967-1106ebfc8ece" />
+
 
 
 #### 3. Runtime Performance
@@ -1106,7 +1109,10 @@ It includes pipeline performance metrics like runtime, automation frequency and 
 
 > The ETL pipeline runs within a minute, automatically refreshing the dashboard data daily without manual effort.
 
+
+
 <img width="1444" height="852" alt="image" src="https://github.com/user-attachments/assets/69531360-895c-44c9-9aaf-259a976eff80" />
+
 
 
 #### 4. Error Handling and Logging
@@ -1132,6 +1138,8 @@ It includes pipeline performance metrics like runtime, automation frequency and 
 > [!IMPORTANT]
 >
 > The pipeline runs fully unattended, providing consistent daily data updates and automatic Power BI refreshes.
+
+
 
 <img width="1191" height="759" alt="image" src="https://github.com/user-attachments/assets/365b93ae-e6dc-4f54-8cb0-51b9f12ff4fc" />
 
@@ -1258,28 +1266,37 @@ It includes pipeline performance metrics like runtime, automation frequency and 
 ## How To Create PostgreSQL Database on Neon
 
 - Open [Neon](https://neon.com/) in your browser
+  
 <img width="1012" height="489" alt="image" src="https://github.com/user-attachments/assets/478e723e-6415-46f8-a675-598c5a70f0a6" />
 
 - Login with GitHub/Google/Microsoft
+  
 <img width="1021" height="477" alt="image" src="https://github.com/user-attachments/assets/d8cfcd94-596c-43d8-b4ac-1c6bbc6dbe43" />
 
 - Create a New Project
+  
 <img width="1021" height="477" alt="image" src="https://github.com/user-attachments/assets/95cc0276-0a14-490e-b9af-fb74fe846e5f" />
 
 - Fill in the Project Details
+  
 <img width="1012" height="477" alt="image" src="https://github.com/user-attachments/assets/7933572b-7fd3-49dd-95ef-03f6d3696d1c" />
 
 - New PostgreSQL Project is created in Neon Console
+  
 <img width="1012" height="539" alt="image" src="https://github.com/user-attachments/assets/3f63cf6c-7eda-452c-b511-425101790f68" />
 
 ---------------------------------------------------------------
 
 ### 2. How to connect Neon Database with Python via SQLAlchemy?
 - Open the newly created Project and Click Connect
+
+  
 <img width="1872" height="866" alt="image" src="https://github.com/user-attachments/assets/449e8963-b180-40ea-8e64-1ae22b739745" />
 
 
 - Get the Connection String of your Database
+
+  
 <img width="1617" height="868" alt="image" src="https://github.com/user-attachments/assets/c82d9d27-09de-47e9-9d72-aa93a7fd2bfc" />
 
 <p align="center">Image taken from Neon Documentation</p>
@@ -1328,6 +1345,8 @@ engine = create_engine(f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}?ss
 - Start with a new, empty report.
 - In the Home tab, click on Get Data then More...
 - This opens a list of all available data connectors.
+
+  
 <img width="831" height="522" alt="image" src="https://github.com/user-attachments/assets/8ff45e58-4a69-4b36-9f69-a7bf11df0745" />
 
 &nbsp;
@@ -1335,6 +1354,8 @@ engine = create_engine(f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}?ss
 - In the list of connectors, scroll down and find PostgreSQL database.
 - Select it and click Connect.
 - This tells Power BI that you want to connect to a PostgreSQL database (like Neon).
+
+  
 <img width="849" height="528" alt="image" src="https://github.com/user-attachments/assets/088985b6-eb7c-4a8f-9c0f-7314a28759fd" />
 
 &nbsp;
@@ -1347,6 +1368,8 @@ DB_NAME=dbname
 ```
 - Fill in Host and Database name and Click ok.
 - This step connects Power BI directly to your Neon PostgreSQL Database.
+
+  
 <img width="827" height="476" alt="image" src="https://github.com/user-attachments/assets/b14b34a0-a79b-4887-8551-b4d579b50453" />
 
 &nbsp;
@@ -1371,6 +1394,7 @@ DB_NAME=dbname
 - Once connected, you'll see a list of all available tables and views from your Neon database.
 - Select the ones you want to use in your report and Click Load.
 
+
 <img width="1065" height="855" alt="image" src="https://github.com/user-attachments/assets/4132b3de-38c8-4d3b-92c1-b8d696ad8a2a" />
 
 - Power BI is now connected to your Neon PostgreSQL database.
@@ -1384,15 +1408,19 @@ DB_NAME=dbname
 - Navigate to the repository that contains your workflow file (`.github/workflows/etl_pipeline.yml`).
 - This is where your ETL (Extract-Transform-Load) automation is defined.
 - On your repository's main page click Settings from the top navigation bar.
+
+  
 <img width="1097" height="696" alt="image" src="https://github.com/user-attachments/assets/1fdf034b-7629-4f8f-a0e5-474ded5a5e1e" />
 
 - In the left-hand sidebar of the Settings page, scroll down to find Secrets and Variables.
 - Click Actions to open the section where you can manage secrets used in GitHub Actions workflows.
 
+
 <img width="1151" height="853" alt="image" src="https://github.com/user-attachments/assets/db01288b-8d5f-4f79-bfe7-444a25de0110" />
 
 - In the Actions section, click the New repository secret button.
 - This opens a window to add a new secret key-value pair.
+
 
 <img width="1482" height="677" alt="image" src="https://github.com/user-attachments/assets/a61d28c9-8736-4808-940b-1cb7d4ecef3d" />
 
@@ -1404,6 +1432,7 @@ DB_NAME=dbname
 - Paste these into the GitHub form fields :
   - Name → enter the variable name
   - Secret → enter the variable value
+
 
   <img width="1380" height="758" alt="image" src="https://github.com/user-attachments/assets/6e8f6c78-bf07-4643-a60f-b7a6e56b975a" />
 
@@ -1689,6 +1718,8 @@ jobs:
     - Displays a themed background image for a mordern look.
 - **User Experience**
     - Designed for clarity and smooth navigation so users can access key insights in one click.
+ 
+      
 <img width="1289" height="705" alt="image" src="https://github.com/user-attachments/assets/a5d85f6a-c385-433c-9faa-6f2309b57a63" />
 
 -----------------------------
@@ -1715,7 +1746,6 @@ jobs:
 - **Filled Area Chart - Monthly Sales & Profit Trend**
   - Data View : `month_wise_sales_and_profit`
   - Purpose : Displays the month-wise trend of sales and profit to track seasonal performance and growth.
-
 <img width="1318" height="733" alt="image" src="https://github.com/user-attachments/assets/2063c4af-9cfa-4aab-9d63-2c0a7c32a9f0" />
 
 --------------------------
@@ -1739,7 +1769,6 @@ jobs:
 - **Dual Area Charts - Segment-wise Monthly Sales & Profit**
   - Data View : `segment_wise_monthly_sales_and_profit`
   - Purpose : Visualizes monthly trends for sales and profit across different customer segments.
-
   <img width="1321" height="737" alt="image" src="https://github.com/user-attachments/assets/8add8f5b-7ceb-422c-9555-573bda344564" />
 
 -----------------------
@@ -1776,6 +1805,8 @@ jobs:
     - Red (0-10%) → Low profit margin, needs improvement.
     - Yellow (10-20%) → Moderate margin, progressing toward target.
     - Green (20-40%) → Healthy profit margin, close to or exceeding target.
+   
+    - 
    <img width="1320" height="733" alt="image" src="https://github.com/user-attachments/assets/2cae4843-1dc9-4a1e-b844-bb26b4314409" />
 
    ----------------------------
