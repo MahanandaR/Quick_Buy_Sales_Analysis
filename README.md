@@ -14,7 +14,7 @@
 - [GitHub Actions](#github-actions)
 - [Power BI Dashboard](#power-bi-dashboard)
 - [Results & Insights](#results--insights)
-- [How To](#how-to)
+- [How To Create PostgreSQL Database on Neon](#how-to)
 - [Folder Structure](#folder-structure)
 - [License](#license)
 
@@ -1047,4 +1047,780 @@ generate_data.py → create_views.py → Power BI Refresh → New Insights
 ```
 
 This ensures that the Power BI Dashboard always display the latest insights automatically.
+<img width="1055" height="424" alt="image" src="https://github.com/user-attachments/assets/1682664e-43a3-4c00-a501-79c2041c8c2a" />
 
+
+## Results & Insights
+It highlights the key outcomes and insights generated from the project's ETL pipeline and Power BI dashboards.
+
+### Pipeline Performance
+It includes pipeline performance metrics like runtime, automation frequency and reliability.
+
+#### 1. Data Loading Overview
+| **Parameter**                  | **Value**                         |
+| :----------------------------- | :-------------------------------- |
+| **Dataset Size**               | ~50,000 rows                      |
+| **Tables Used**                | `customers`, `orders`, `products` |
+| **Avg. Daily Inserts**         | ~100 records                      |
+| **Database**                   | Neon PostgreSQL (Cloud-hosted)    |
+
+
+> [!NOTE]
+> This setup mimics real-time superstore sales with daily updates to orders and customers tables.
+
+#### 2. Automation & Scheduling
+| **Attribute**           | **Details**                                         |
+| ----------------------- | :-------------------------------------------------- |
+| **Automation Tool**     | GitHub Actions                                      |
+| **Execution Frequency** | Daily                                               |
+| **Scheduled Time**      | 10:00 AM                                            |
+| **Trigger Type**        | `cron` (automated) and `workflow_dispatch` (manual) |
+| **Runner Environment**  | `ubuntu-latest` (Linux VM)                          |
+
+> [!NOTE]
+> This setup ensures that the latest data is always available for Power BI dashboards, no manual refresh required.
+
+<img width="1701" height="542" alt="image" src="https://github.com/user-attachments/assets/fa9ad692-09bb-4608-b967-1106ebfc8ece" />
+
+
+#### 3. Runtime Performance
+| **Workflow Step**                    | **Description**                                   | **Runtime (sec)** |
+| :----------------------------------- | :------------------------------------------------ | :--------------- |
+| **Set up job**                       | Initializes GitHub Actions Environment            |                1s |
+| **Checkout Repository**              | Pulls repository code into the Runner             |                1s |
+| **Set up Python**                    | Installs Python Environment (v3.13.0)             |                0s |
+| **Install dependencies**             | Installs libraries from `requirements.txt`        |               22s |
+| **Run ETL Script**                   | Extracts, transforms & loads data into PostgreSQL |                3s |
+| **Run Generate Data Script**         | Generates new synthetic customers & orders data   |                4s |
+| **Run Views Script**                 | Creates/refreshes analytical SQL Views            |                3s |
+| **Run Export Views Script**          | Exports SQL views as CSV files                    |                2s |
+| **Upload Exported CSV as Artifacts** | Uploads exported CSVs to GitHub Actions Artifacts |                2s |
+| **Commit and Push CSVs**             | Commits CSV files to the Repository               |                0s |
+| **Upload Logs as Artifacts**         | Uploads log files for debugging and tracking      |                1s |
+| **Post Setup/Cleanup Steps**         | Cleans Environment Post-run                       |              0-2s |
+
+> [!NOTE]
+> Total Runtime : ~45 to ~50 seconds per pipeline run
+
+> Scheduling : The workflow is scheduled via cron (30 4 * * *), meaning it runs daily at 10:00 AM.
+
+> The ETL pipeline runs within a minute, automatically refreshing the dashboard data daily without manual effort.
+
+<img width="1444" height="852" alt="image" src="https://github.com/user-attachments/assets/69531360-895c-44c9-9aaf-259a976eff80" />
+
+
+#### 4. Error Handling and Logging
+| **Aspect**           | **Implementation Details**                                            |
+| :------------------- | :-------------------------------------------------------------------- |
+| **Error Tracking**   | `try-except` blocks in each Script                                    |
+| **Log Files**        | `etl.log`, `generate_data.log`, `create_views.log`                    |
+| **Log Storage**      | Uploaded as GitHub Actions Artifacts                                  |
+| **Security**         | All credentials stored in GitHub Secrets (`DB_USER`, `DB_PASS`, etc.) |
+
+> [!TIP]
+>
+> Automated logging and secret handling remove the need for manual checks and ensure a smooth workflow run.
+
+#### 5. Reliability and Stability
+| **Metric**                  | **Value**              | **Remarks**                                |
+| :-------------------------- | :--------------------- | :----------------------------------------- |
+| **Total Runtime**           | ~40 seconds            | Fast for Daily Automated ETL               |
+| **Success Rate**            | 100% (last 8 runs)     | Verified via GitHub Actions Workflow Panel |
+| **Avg. Records Inserted**   | ~100 rows/day          | Lightweight Daily Updates                  |
+| **Resource Utilization**    | Low CPU/Memory         | Efficient for Cloud Runners                |
+
+> [!IMPORTANT]
+>
+> The pipeline runs fully unattended, providing consistent daily data updates and automatic Power BI refreshes.
+
+<img width="1191" height="759" alt="image" src="https://github.com/user-attachments/assets/365b93ae-e6dc-4f54-8cb0-51b9f12ff4fc" />
+
+
+-------------------------------------------------------------------------------------------------
+### Dashboard Metrics
+
+#### 1. Shipping Mode Performance
+| **Shipping Mode** | **Total Sales (₹)** | **% of Total Sales** | **Total Profit (₹)** | **% of Total Profit** | **Profit Margin** |
+| ----------------- | ------------------: | -------------------: | -------------------: | --------------------: | ----------------: |
+| Standard Class    |           5,099,197 |            **59.7%** |              897,360 |             **59.8%** |         **17.6%** |
+| Second Class      |           1,650,059 |            **19.3%** |              292,629 |             **19.5%** |         **17.7%** |
+| First Class       |           1,343,959 |            **15.7%** |              230,784 |             **15.4%** |         **17.2%** |
+| Same Day          |             440,836 |             **5.2%** |               78,981 |              **5.3%** |         **17.9%** |
+
+<details>
+<summary>Click Here to view Key Insights</summary>
+&nbsp;
+
+- Standard Class drives ~60% of total sales (~₹5.1M) and profit (~₹897K), making it the most profitable and preferred shipping mode.
+- Second Class accounts for ~19% of total sales (~₹1.65M) and profit (~₹293K), showing moderate usage.
+- First Class brings in ~16% of revenue (~₹1.34M) and ~15% of profit (~₹231K), preferred for premium deliveries.
+- Same Day shipping makes up only ~5% of sales (~₹0.44M) and profit (~₹79K), least used but fastest option.
+- Profit margins stay steady across modes (~17–18%), indicating balanced logistics and pricing control.
+
+</details>
+
+
+#### 2. Customer Segment Performance
+| **Segment** | **Total Sales (₹)** | **% of Total Sales** | **Total Profit (₹)** | **% of Total Profit** | **Profit Margin** |
+| ----------- | ------------------: | -------------------: | -------------------: | --------------------: | ----------------: |
+| Consumer    |           4,263,570 |            **49.9%** |              757,416 |             **50.5%** |         **17.8%** |
+| Corporate   |           2,742,160 |            **32.1%** |              475,855 |             **31.7%** |         **17.4%** |
+| Home Office |           1,528,321 |            **17.9%** |              266,483 |             **17.8%** |         **17.4%** |
+
+<details>
+<summary>Click Here to view Key Insights</summary>
+&nbsp;
+
+- Consumer Segment is the main revenue driver, generating ~50% of total sales (~₹4.26M) and profit (~₹757K).
+- Corporate Segment provides ~32% of total sales (~₹2.74M) and profit (~₹476K), showing steady B2B growth.
+- Home Office Segment delivers ~18% of revenue (~₹1.53M) and profit (~₹266K), smaller but reliable segment.
+- Profit margins are consistent across all segments (~17–18%), highlighting balanced pricing and operational control.
+- Potential growth opportunity lies in expanding Home Office sales through targeted marketing or discount strategies.
+
+</details>
+
+
+#### 3. Monthly Sales & Profit Performance
+| **Month** | **Total Sales (₹)** | **% of Total Sales** | **Total Profit (₹)** | **% of Total Profit** | **Profit Margin** |
+| :-------- | ------------------: | -------------------: | -------------------: | --------------------: | ----------------: |
+| Jan       |             731,193 |             **8.6%** |              130,941 |              **8.7%** |         **17.9%** |
+| Feb       |             666,688 |             **7.8%** |              119,076 |              **7.9%** |         **17.9%** |
+| Mar       |             765,028 |             **9.0%** |              131,184 |              **8.7%** |         **17.1%** |
+| Apr       |             705,858 |             **8.3%** |              123,398 |              **8.2%** |         **17.5%** |
+| May       |             734,328 |             **8.6%** |              131,017 |              **8.7%** |         **17.8%** |
+| Jun       |             639,560 |             **7.5%** |              115,182 |              **7.7%** |         **18.0%** |
+| Jul       |             653,572 |             **7.7%** |              118,166 |              **7.9%** |         **18.1%** |
+| Aug       |             695,246 |             **8.2%** |              124,125 |              **8.3%** |         **17.8%** |
+| Sep       |             646,965 |             **7.6%** |              110,729 |              **7.4%** |         **17.1%** |
+| Oct       |             789,443 |             **9.2%** |              137,346 |              **9.2%** |         **17.4%** |
+| Nov       |             712,799 |             **8.3%** |              120,187 |              **8.0%** |         **16.9%** |
+| Dec       |             793,371 |             **9.3%** |              138,403 |              **9.2%** |         **17.4%** |
+
+<details>
+<summary>Click Here to view Key Insights</summary>
+&nbsp;
+
+- Q4 (Oct–Dec) drives ~27% of yearly sales and profit, making it the best-performing quarter, great time for offers and stock planning.
+- Profit margins stay steady (17–18%) throughout the year, showing good cost control and consistent pricing.
+- March and December are strong sales months, ideal for marketing campaigns and promotions.
+- Overall, sales and profits stay balanced across months, reflecting smooth and stable business performance.
+
+</details>
+
+
+#### 4. Regional Performance Insights
+| **Region**  | **Total Sales (₹)** | **% of Total Sales** | **Total Profit (₹)** | **% of Total Profit** |
+| ----------- | ------------------: | -------------------: | -------------------: | --------------------: |
+| **West**    |           2,484,870 |                 ~29% |              440,814 |                  ~29% |
+| **East**    |           2,456,014 |                 ~29% |              427,689 |                  ~28% |
+| **Central** |           1,986,280 |                 ~23% |              352,400 |                  ~23% |
+| **South**   |           1,606,887 |                 ~19% |              278,851 |                  ~19% |
+
+<details>
+<summary>Click Here to view Key Insights</summary>
+&nbsp;
+
+- West Region accounts for ~29% of total revenue (~₹2.48M) and profit (~₹441K), making it the top-performing region.
+- East Region generates ~29% of total sales (~₹2.46M) and ~28% of total profit (~₹428K), showing strong and balanced growth.
+- Central Region adds ~23% of total revenue (~₹1.99M) and profit (~₹352K), indicating steady mid-range performance.
+- South Region contributes ~19% of total revenue (~₹1.61M) and profit (~₹279K), lowest among all regions, suggesting scope for sales expansion.
+- Overall, profit margins remain consistent (~17–18%), showing healthy operations across all regions.
+
+</details>
+
+
+#### 5. Sub-Category Performance
+| **Sub-Category**          | **Total Sales (₹)** | **% of Total Sales** | **Total Profit (₹)** | **% of Total Profit** |
+| ------------------------- | ------------------: | -------------------: | -------------------: | --------------------: |
+| Paper                     |           1,260,080 |                 ~15% |              223,147 |                  ~15% |
+| Binders                   |             943,376 |                 ~11% |              162,084 |                  ~11% |
+| Phones                    |             879,975 |                 ~10% |              153,018 |                  ~10% |
+| Furnishings               |             836,955 |                 ~10% |              151,623 |                  ~10% |
+| Art                       |             697,965 |                  ~8% |              120,843 |                   ~8% |
+| Storage                   |             651,268 |                  ~8% |              112,673 |                   ~8% |
+| Accessories               |             643,638 |                  ~7% |              112,007 |                   ~7% |
+| Appliances                |             495,030 |                  ~6% |               90,786 |                   ~6% |
+| Others (8 sub-categories) |                   — |                    — |                    — |                     — |
+
+<details>
+<summary>Click Here to view Key Insights</summary>
+&nbsp;
+
+- Paper leads in products sub-categories, driving ~15% of total sales (~₹1.26M) and profit (~₹223K).
+- Binders, Phones and Furnishings together contribute ~31% of revenue (~₹2.66M), forming the core profit cluster.
+- Art, Storage and Accessories act as strong mid-tier performers, keeping profit margins steady around 17–18%.
+- Lower-performing items like Copiers and Supplies together make <5% of total profit, indicating limited business impact.
+- Expanding high-value categories (Paper, Phones, Furnishings) can help grow revenue without affecting margin stability.
+
+</details>
+
+------------------------------------------------------------
+## How To Create PostgreSQL Database on Neon
+
+- Open [Neon](https://neon.com/) in your browser
+<img width="1012" height="489" alt="image" src="https://github.com/user-attachments/assets/478e723e-6415-46f8-a675-598c5a70f0a6" />
+
+- Login with GitHub/Google/Microsoft
+<img width="1021" height="477" alt="image" src="https://github.com/user-attachments/assets/d8cfcd94-596c-43d8-b4ac-1c6bbc6dbe43" />
+
+- Create a New Project
+<img width="1021" height="477" alt="image" src="https://github.com/user-attachments/assets/95cc0276-0a14-490e-b9af-fb74fe846e5f" />
+
+- Fill in the Project Details
+<img width="1012" height="477" alt="image" src="https://github.com/user-attachments/assets/7933572b-7fd3-49dd-95ef-03f6d3696d1c" />
+
+- New PostgreSQL Project is created in Neon Console
+<img width="1012" height="539" alt="image" src="https://github.com/user-attachments/assets/3f63cf6c-7eda-452c-b511-425101790f68" />
+
+---------------------------------------------------------------
+
+### 2. How to connect Neon Database with Python via SQLAlchemy?
+- Open the newly created Project and Click Connect
+<img width="1872" height="866" alt="image" src="https://github.com/user-attachments/assets/449e8963-b180-40ea-8e64-1ae22b739745" />
+
+
+- Get the Connection String of your Database
+<img width="1617" height="868" alt="image" src="https://github.com/user-attachments/assets/c82d9d27-09de-47e9-9d72-aa93a7fd2bfc" />
+
+<p align="center">Image taken from Neon Documentation</p>
+
+- Understand the Connection String
+```
+postgresql://neondb_owner:npg_fDrwF5j6vHVI@ep-orange-pine-a4fgvt3m-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+             ^    ^         ^                         ^                              ^
+       role -|    |         |- hostname               |- pooler option               |- database
+                  |
+                  |- password
+```
+You can use this to configure your database connection.
+
+You can place the connection details in an `.env` file for secure access.
+```bash
+# .env file
+DB_HOST=ep-orange-pine-a4fgvt3m-pooler.us-east-1.aws.neon.tech
+DB_NAME=neondb
+DB_USER=neondb_owner
+DB_PASS=npg_fDrwF5j6vHVI
+```
+After placing connection details in an `.env` file, you can read it via Python using SQLAlchemy.
+
+```python
+# Importing Libraries
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+
+# Loading Environment File
+load_dotenv()
+
+# Loading Database Credentials from Environment File
+DB_HOST = os.getenv("DB_HOST")
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASS = os.getenv("DB_PASS")
+
+# Creating SQLAlchemy Engine to upload the Data to Neon PostgreSQL Database
+engine = create_engine(f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}?sslmode=require&channel_binding=require", pool_pre_ping=True)
+```
+-----------------------------------------------------------------
+
+### 3. How to connect Power BI with Neon Database for live data refresh?
+- Launch Power BI Desktop on your computer.
+- Start with a new, empty report.
+- In the Home tab, click on Get Data then More...
+- This opens a list of all available data connectors.
+<img width="831" height="522" alt="image" src="https://github.com/user-attachments/assets/8ff45e58-4a69-4b36-9f69-a7bf11df0745" />
+
+&nbsp;
+
+- In the list of connectors, scroll down and find PostgreSQL database.
+- Select it and click Connect.
+- This tells Power BI that you want to connect to a PostgreSQL database (like Neon).
+<img width="849" height="528" alt="image" src="https://github.com/user-attachments/assets/088985b6-eb7c-4a8f-9c0f-7314a28759fd" />
+
+&nbsp;
+
+- Power BI will prompt you for connection information.
+- You'll need the Host and Database name from your Neon connection string.
+```bash
+DB_HOST=ep-cool-darkness-a1b2c3d4-pooler.us-east-2.aws.neon.tech
+DB_NAME=dbname
+```
+- Fill in Host and Database name and Click ok.
+- This step connects Power BI directly to your Neon PostgreSQL Database.
+<img width="827" height="476" alt="image" src="https://github.com/user-attachments/assets/b14b34a0-a79b-4887-8551-b4d579b50453" />
+
+&nbsp;
+
+
+<details>
+  <summary>Click Here to know more about Connection Modes in Power BI</summary>
+  &nbsp;
+  
+  - **Import Mode**
+    - Power BI copies the data from your source system into its internal, highly optimized storage engine.
+    - That means all the data is loaded and stored within the .pbix file (or in Power BI Service once published).
+    - All reports, visuals and calculations run on this cached data, not on the live data source.
+  - **DirectQuery Mode**
+    - In DirectQuery Mode, Power BI does not import or stores data.
+    - Instead, it sends real-time queries to the data source every time a user interacts with a report.
+    - For live data refresh, choose DirectQuery Mode.
+    
+</details>
+&nbsp;
+
+- Once connected, you'll see a list of all available tables and views from your Neon database.
+- Select the ones you want to use in your report and Click Load.
+
+<img width="1065" height="855" alt="image" src="https://github.com/user-attachments/assets/4132b3de-38c8-4d3b-92c1-b8d696ad8a2a" />
+
+- Power BI is now connected to your Neon PostgreSQL database.
+- It can refresh live data automatically using DirectQuery Mode.
+
+  --------------------------------------------------------------------
+
+  
+### 4. How to configure GitHub Actions?
+- Open [GitHub](https://github.com/) in your browser.
+- Navigate to the repository that contains your workflow file (`.github/workflows/etl_pipeline.yml`).
+- This is where your ETL (Extract-Transform-Load) automation is defined.
+- On your repository's main page click Settings from the top navigation bar.
+<img width="1097" height="696" alt="image" src="https://github.com/user-attachments/assets/1fdf034b-7629-4f8f-a0e5-474ded5a5e1e" />
+
+- In the left-hand sidebar of the Settings page, scroll down to find Secrets and Variables.
+- Click Actions to open the section where you can manage secrets used in GitHub Actions workflows.
+
+<img width="1151" height="853" alt="image" src="https://github.com/user-attachments/assets/db01288b-8d5f-4f79-bfe7-444a25de0110" />
+
+- In the Actions section, click the New repository secret button.
+- This opens a window to add a new secret key-value pair.
+
+<img width="1482" height="677" alt="image" src="https://github.com/user-attachments/assets/a61d28c9-8736-4808-940b-1cb7d4ecef3d" />
+
+
+- Open your local `.env` file (this file contains environment variables like API keys, tokens, etc).
+- For each variable, copy :
+  - Name : the key (`DATABASE_URL`)
+  - Value : the corresponding value (`postgres://user:pass@host/db`)
+- Paste these into the GitHub form fields :
+  - Name → enter the variable name
+  - Secret → enter the variable value
+
+  <img width="1380" height="758" alt="image" src="https://github.com/user-attachments/assets/6e8f6c78-bf07-4643-a60f-b7a6e56b975a" />
+
+
+- Your secrets are now securely stored in the repository.
+- You can use them inside your workflow `.github/workflows/etl_pipeline.yml` like this :
+```bash
+DB_USER: ${{ secrets.DB_USER }}
+DB_PASS: ${{ secrets.DB_PASS }}
+```
+
+-------------------------------------------------------
+
+## GitHub Actions
+- The GitHub Actions workflow automates the entire ETL pipeline, without any manual effort.
+- It runs every day at 10:00 AM and ensures that the latest data are always updated.
+
+<details>
+  <summary>Click Here to view the entire Script</summary>
+  <br>
+
+```yaml
+# ---------------- Name of the Workflow ----------------
+name: ETL Pipeline Automation
+
+# ---------------- When should it run? ----------------
+on:
+  schedule:
+    - cron: "30 4 * * *"   # Run the workflow daily at 10:00 AM
+  workflow_dispatch:       # Allow manual run from GitHub UI
+
+# ---------------- Authority to update Repository ----------------
+permissions:
+  contents: write
+
+# ---------------- Set of steps to run ----------------
+jobs:
+  data-pipeline:
+    runs-on: ubuntu-latest   # Use a Linux VM for the Job
+
+    env: # Shared env variables available to all scripts
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+
+    steps:
+      # ---------------- Step 1 : Checkout Code ----------------
+      # This pulls your repository into the GitHub Runner VM
+      - name: Checkout repository
+        uses: actions/checkout@v3   
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ---------------- Step 2 : Set up Python ----------------
+      # Installs Python 3.13.0 so GitHub can run your Scripts
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13.0"
+
+      # ---------------- Step 3 : Install Dependencies ----------------
+      # Installs all Python libraries listed in requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # ---------------- Step 4 : Run ETL Script ----------------
+      # Runs your etl.py script to setup database
+      - name: Run ETL Script
+        run: |
+          python scripts/etl.py
+
+      # ---------------- Step 5 : Generate New Data and Append ----------------
+      # Creates new data of customers and orders to ingest in the Neon Database
+      - name: Run Generate Data Script
+        run: |
+          python scripts/generate_data.py
+
+      # ---------------- Step 6 : Run Views Script ----------------
+      # Creates or refreshes SQL views in Neon Database
+      - name: Run Views Script
+        run: |
+          python scripts/create_views.py
+
+      # ---------------- Step 7 : Export Views to CSV ----------------
+      # Exports SQL views as CSVs inside the `views` folder
+      - name: Run Export Views Script
+        run: |
+          python scripts/export_views.py
+
+      # ---------------- Step 8 : Save CSVs as Artifacts ----------------
+      # Stores CSVs in the workflow run, downloadable from GitHub
+      - name: Upload Exported CSV as Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: exported-views
+          path: views/*.csv
+
+      # ---------------- Step 9 : Commit CSVs to Repository ----------------
+      # Updates repository with the latest CSVs so they are visible directly
+      - name: Commit and Push CSVs
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A views/
+          git commit -m "chore: update csv export from views on $(date -u +'%Y-%m-%d')" -m "[skip ci]" || echo "No changes to commit"
+          git push
+
+      # ---------------- Step 10 : Save Logs as Artifacts ----------------
+      # Stores Logs in the workflow run, downloadable from GitHub
+      - name: Upload Logs as Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: etl-logs
+          path: logs/*.log
+```
+</details>
+
+### Workflow Overview
+
+### 1. Name of the Workflow
+```yaml
+name: ETL Pipeline Automation
+```
+
+- This gives your workflow a name.
+- You'll see **ETL Pipeline Automation** in the GitHub Actions tab whenever it runs.
+
+<hr>
+
+### 2. When should it run?
+```yaml
+on:
+  schedule:
+    - cron: "30 4 * * *"
+  workflow_dispatch:
+```
+- **schedule :** Runs every day at 10:00 AM automatically (based on the cron expression).
+- **workflow_dispatch :** Allows you to manually trigger the workflow from the GitHub Actions tab.
+
+<hr>
+
+### 3. Permissions
+```yaml
+permissions:
+  contents: write
+```
+- This gives your workflow permission to update files in your repository.
+
+<hr>
+
+### 4. Jobs
+```yaml
+jobs:
+  data-pipeline:
+    runs-on: ubuntu-latest
+
+    env: # Shared env variables available to all scripts
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASS: ${{ secrets.DB_PASS }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+```
+- **jobs :** Defines what tasks (jobs) the workflow will perform.
+- **data-pipeline :** The name of your main job.
+- **runs-on :** Tells GitHub to use a Linux virtual machine (Ubuntu) to run your scripts.
+
+<hr>
+
+### 5. Main Workflow Tasks
+- Each step defines a task GitHub Actions performs in sequence :
+
+#### Step 1 : Checkout Repository
+```yaml
+- name: Checkout repository
+  uses: actions/checkout@v3
+```
+- This pulls your GitHub Repository files into the VM so the workflow can access your scripts, data and folders.
+
+#### Step 2 : Set Up Python
+```yaml
+- name: Set up Python
+  uses: actions/setup-python@v4
+  with:
+    python-version: "3.13.0"
+```
+- Installs Python 3.13.0 on the VM, the version your ETL scripts uses.
+
+#### Step 3 : Install Dependencies
+```yaml
+- name: Install dependencies
+  run: |
+    pip install -r requirements.txt
+```
+- Installs all the Python libraries listed in `requirements.txt` file.
+
+#### Step 4 : Run ETL Script
+```yaml
+- name: Run ETL Script
+  run: |
+    python scripts/etl.py
+```
+- Runs your `etl.py` script which :
+  - Cleans and transforms raw data.
+  - Loads it into the Neon PostgreSQL Database.
+  - Uses GitHub Secrets to securely access database credentials (so they're never expose in code).
+
+#### Step 5 : Generate New Data
+```yaml
+- name: Run Generate Data Script
+  run: |
+    python scripts/generate_data.py
+```
+- Runs `generate_data.py` which creates and updates new random data to simulate daily data refresh.
+
+#### Step 6 : Create SQL Views
+```yaml
+- name: Run Views Script
+  run: |
+    python scripts/create_views.py
+```
+- Executes `create_views.py` which builds or refreshes SQL Views in the database.
+- These views are directly used by Power BI dashboards.
+
+#### Step 7 : Export Views to CSV
+```yaml
+- name: Run Export Views Script
+  run: |
+    python scripts/export_views.py
+```
+- Exports your latest SQL Views as CSV files into the `views/` folder.
+- These can be used for testing, sharing or backups.
+
+#### Step 8 : Upload CSVs as Artifacts
+```yaml
+- name: Upload Exported CSV as Artifacts
+  uses: actions/upload-artifact@v4
+  with:
+    name: exported-views
+    path: views/*.csv
+```
+- Stores your exported CSV files as downloadable artifacts in GitHub Actions.
+- This means you can view and download them directly from the workflow run.
+
+#### Step 9 : Commit CSVs to Repository
+```yaml
+- name: Commit and Push CSVs
+  run: |
+    git config --global user.name "github-actions[bot]"
+    git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    git add -A views/
+    git commit -m "chore: update csv export from views on $(date -u +'%Y-%m-%d')" -m "[skip ci]" || echo "No changes to commit"
+    git push
+```
+- Commits updated CSVs to the repository, so anyone visiting the GitHub project can see the latest analysis.
+
+#### Step 10 : Upload Logs
+```yaml
+- name: Upload Logs as Artifacts
+  uses: actions/upload-artifact@v4
+  with:
+    name: etl-logs
+    path: logs/*.log
+```
+- Uploads all log files as artifacts, useful for debugging or checking workflow results.
+
+- ------------------------------------
+
+## Power BI Dashboard
+- The Power BI Dashboard is designed to turn data into insights with a clean and interactive interface.
+- It connects directly to the database, ensuring that the dashboard always reflects the most recent data.
+- The dashboard consists of four main pages : Home, Overview, Customers and Products.
+- All are connected through page navigation and drill-through features.
+
+### 1. Home Page
+- This page serves as a entry point and navigation hub for the dashboard.
+  
+### Key Components
+- **Navigation Buttons**
+    - Interactive page navigator that links to Overview, Customers and Products page.
+- **Dashboard Branding**
+    - Displays a themed background image for a mordern look.
+- **User Experience**
+    - Designed for clarity and smooth navigation so users can access key insights in one click.
+<img width="1289" height="705" alt="image" src="https://github.com/user-attachments/assets/a5d85f6a-c385-433c-9faa-6f2309b57a63" />
+
+-----------------------------
+
+### 2. Overview
+- This page focuses on a high-level summary of overall business performance like orders, customers and products.
+  
+### Key Components
+- **Multi-Row Cards - Key Business Metrics**
+  - Data View : `overall_sales_performance`
+  - Purpose : Gives an instant snapshot of business performance at a glance.
+- **Filled Map - Sales by State**
+  - Data View : `state_wise_sales_and_customer_base`
+  - Purpose : Visualizes geographic sales distribution, showing which states drive the most revenue.
+- **Donut Chart - Shipping Performance**
+  - Data View : `shipping_performance`
+  - Purpose : Compares sales and profit by shipping mode, helping identify cost-effective delivery methods.
+- **Stacked Bar Chart - Segment-wise Sales & Profit**
+  - Data View : `segment_wise_sales_and_profit`
+  - Purpose : Shows sales and profit across customer segments.
+- **Bar Chart - Top Customers by Sales**
+  - Data View : `top_customers_by_sales`
+  - Purpose : Highlights the top-performing customers, helping identify key contributors to revenue.
+- **Filled Area Chart - Monthly Sales & Profit Trend**
+  - Data View : `month_wise_sales_and_profit`
+  - Purpose : Displays the month-wise trend of sales and profit to track seasonal performance and growth.
+
+<img width="1318" height="733" alt="image" src="https://github.com/user-attachments/assets/2063c4af-9cfa-4aab-9d63-2c0a7c32a9f0" />
+
+--------------------------
+
+### 3. Customers
+- This page focuses on understanding customer behavior, performance and geographic distribution.
+
+### Key Components
+- **Multi-Row Card - Customer Performance Summary**
+  - Data View : `overall_customers_performance`
+  - Purpose : Provides an overview of how much each customer contributes on average to sales and profits.
+- **Filled Map - State-wise Customer Base**
+  - Data View : `state_wise_sales_and_customer_base`
+  - Purpose : Visualizes customer distribution across states, helping identify regions with the highest customers.
+- **Stacked Column Chart - Region-wise Monthly Sales**
+  - Data View : `region_wise_monthly_sales`
+  - Purpose : Tracks how sales vary across different regions and months, helping spot seasonal/regional trends.
+- **Stacked Column Chart - Region-wise Sales & Profit**
+  - Data View : `region_wise_sales_and_profit`
+  - Purpose : Compares overall sales and profit across regions to identify high and low-performing areas.
+- **Dual Area Charts - Segment-wise Monthly Sales & Profit**
+  - Data View : `segment_wise_monthly_sales_and_profit`
+  - Purpose : Visualizes monthly trends for sales and profit across different customer segments.
+
+  <img width="1321" height="737" alt="image" src="https://github.com/user-attachments/assets/8add8f5b-7ceb-422c-9555-573bda344564" />
+
+-----------------------
+
+### 4. Products
+- This page focuses on analyzing product performance, category trends and geographical purchasing behavior.
+  
+### Key Components
+- **Filled Map - State-wise Most Purchased Sub-category**
+  - Data View : `state_wise_most_purchased_sub_category`
+  - Purpose : Helps identify regional preferences and popular product types across states.
+- **Treemap - Category-wise Orders**
+  - Data View : `category_wise_sales_profit_and_orders`
+  - Purpose : Visualizes which categories dominate in orders and their contribution to total business.
+- **Stacked Column Chart - Category-wise Sales and Profit**
+  - Data View : `category_wise_sales_profit_and_orders`
+  - Purpose : Visualizes which categories dominate in sales and profit and their contribution to total business.
+- **Stacked Bar Chart - Sub-category-wise Sales & Profit**
+  - Data View : `sub_category_wise_sales_and_profit`
+  - Purpose : Compares performance of business across all product sub-categories.
+- **Dual Ribbon Charts - Category-wise Monthly Sales & Profit Trends**
+  - Data View : `category_wise_monthly_sales_and_profit`
+  - Purpose : Tracks how each product category performs across months, identify growth patterns.
+- **Gauge Chart - Profit Margin Tracker**
+  - Data Source
+    - Calculated using total sales and profit.
+  - Configuration 
+    - Minimum : 0%
+    - Maximum : 40%
+    - Target : 30%
+  - Purpose
+    - Tracks the current profit margin against the target (30%).
+  - Color Logic
+    - Red (0-10%) → Low profit margin, needs improvement.
+    - Yellow (10-20%) → Moderate margin, progressing toward target.
+    - Green (20-40%) → Healthy profit margin, close to or exceeding target.
+   <img width="1320" height="733" alt="image" src="https://github.com/user-attachments/assets/2cae4843-1dc9-4a1e-b844-bb26b4314409" />
+
+   ----------------------------
+
+   
+## Folder Structure
+
+```
+├── .github/
+│   └── workflows/
+│       └── etl_pipeline.yml         # GitHub Actions Workflow File
+│
+├── scripts/
+│   ├── etl.py                       # Extract, Transform & Load Initial Data
+│   ├── generate_data.py             # Script to generate and append New Random Data
+│   ├── create_views.py              # Script to create or refresh SQL Views in PostgreSQL Database
+│   └── export_views.py              # Script to export SQL Views results as CSV File
+│
+├── data/
+│   └── sales_data.csv               # Original Raw Dataset
+|
+├── database/
+│   ├── schema.sql                   # Database Schema
+│   └── views.sql                    # SQL Views
+│
+├── views/
+│   ├── shipping_performance.csv     # Exported Views as CSV Files
+│   └── ...
+|
+├── images/
+│   ├── banner.png                   # Banner for Home Page
+│   ├── shopping-cart.png            # Multi-Row Card Image
+|   └── ...
+│
+├── utils/                           # Reusable Python Functions (utils Package)
+│   ├── __init__.py
+│   ├── data_preprocessor.py
+│   ├── generate_random_data.py
+|   └── ...
+|
+├── Dashboard.pbix                   # Power BI Dashboard File
+├── .gitignore                       # All files and folders ignored by Git
+├── requirements.txt                 # List of required libraries for the Project
+├── LICENSE                          # License specifying permissions and usage rights
+└── README.md                        # Detailed documentation of the Project
+```
+
+-----------------------------
