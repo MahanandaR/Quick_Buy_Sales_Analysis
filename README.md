@@ -500,12 +500,14 @@ CREATE TABLE IF NOT EXISTS orders (
 - It automatically cleans and loads validated sales data into a PostgreSQL database for Power BI dashboard.
 - It is built with Python using SQLAlchemy and is reliable and securely configured via environment variables.
 
+
 ### ETL Pipeline Structure
 | **Script Name**    | **Purpose**                                                                                    |
 | :----------------- | :--------------------------------------------------------------------------------------------- |
 | `etl.py`           | Sets up the database schema, cleans the dataset and loads initial data into the database.      |
 | `create_views.py`  | Creates multiple SQL views that summarizes and aggregates data for Power BI Dashboard.         |
 | `generate_data.py` | Generates random synthetic transactions data to simulate daily updates in the database.        |
+
 
 ### How the ETL Pipeline works?
 #### 1. `etl.py`
@@ -930,6 +932,7 @@ logging.info("Views created successfully in Neon PostgreSQL Database")
 ```
 </details>
 
+
 #### What it does?
 - **Database Connection**
   - Connects to the database securely using environment variables.
@@ -941,6 +944,7 @@ logging.info("Views created successfully in Neon PostgreSQL Database")
   - Stores execution logs in `logs/create_views.log`.
 
 ---
+
 
 #### 3. `generate_data.py`
 - This script keeps the database updated with new transaction data for schedule data refresh in Power BI.
@@ -1047,6 +1051,8 @@ generate_data.py → create_views.py → Power BI Refresh → New Insights
 ```
 
 This ensures that the Power BI Dashboard always display the latest insights automatically.
+
+
 <img width="1055" height="424" alt="image" src="https://github.com/user-attachments/assets/1682664e-43a3-4c00-a501-79c2041c8c2a" />
 
 
@@ -1077,8 +1083,10 @@ It includes pipeline performance metrics like runtime, automation frequency and 
 | **Trigger Type**        | `cron` (automated) and `workflow_dispatch` (manual) |
 | **Runner Environment**  | `ubuntu-latest` (Linux VM)                          |
 
+
 > [!NOTE]
 > This setup ensures that the latest data is always available for Power BI dashboards, no manual refresh required.
+
 
 
 
@@ -1266,22 +1274,31 @@ It includes pipeline performance metrics like runtime, automation frequency and 
 ## How To Create PostgreSQL Database on Neon
 
 - Open [Neon](https://neon.com/) in your browser
+
   
 <img width="1012" height="489" alt="image" src="https://github.com/user-attachments/assets/478e723e-6415-46f8-a675-598c5a70f0a6" />
 
+
 - Login with GitHub/Google/Microsoft
+
   
 <img width="1021" height="477" alt="image" src="https://github.com/user-attachments/assets/d8cfcd94-596c-43d8-b4ac-1c6bbc6dbe43" />
 
+
 - Create a New Project
+
   
 <img width="1021" height="477" alt="image" src="https://github.com/user-attachments/assets/95cc0276-0a14-490e-b9af-fb74fe846e5f" />
 
+
 - Fill in the Project Details
+
   
 <img width="1012" height="477" alt="image" src="https://github.com/user-attachments/assets/7933572b-7fd3-49dd-95ef-03f6d3696d1c" />
 
+
 - New PostgreSQL Project is created in Neon Console
+
   
 <img width="1012" height="539" alt="image" src="https://github.com/user-attachments/assets/3f63cf6c-7eda-452c-b511-425101790f68" />
 
@@ -1299,9 +1316,12 @@ It includes pipeline performance metrics like runtime, automation frequency and 
   
 <img width="1617" height="868" alt="image" src="https://github.com/user-attachments/assets/c82d9d27-09de-47e9-9d72-aa93a7fd2bfc" />
 
+
 <p align="center">Image taken from Neon Documentation</p>
 
 - Understand the Connection String
+
+
 ```
 postgresql://neondb_owner:npg_fDrwF5j6vHVI@ep-orange-pine-a4fgvt3m-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
              ^    ^         ^                         ^                              ^
@@ -1346,8 +1366,10 @@ engine = create_engine(f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}?ss
 - In the Home tab, click on Get Data then More...
 - This opens a list of all available data connectors.
 
+
   
 <img width="831" height="522" alt="image" src="https://github.com/user-attachments/assets/8ff45e58-4a69-4b36-9f69-a7bf11df0745" />
+
 
 &nbsp;
 
@@ -1409,14 +1431,17 @@ DB_NAME=dbname
 - This is where your ETL (Extract-Transform-Load) automation is defined.
 - On your repository's main page click Settings from the top navigation bar.
 
+
   
 <img width="1097" height="696" alt="image" src="https://github.com/user-attachments/assets/1fdf034b-7629-4f8f-a0e5-474ded5a5e1e" />
+
 
 - In the left-hand sidebar of the Settings page, scroll down to find Secrets and Variables.
 - Click Actions to open the section where you can manage secrets used in GitHub Actions workflows.
 
 
 <img width="1151" height="853" alt="image" src="https://github.com/user-attachments/assets/db01288b-8d5f-4f79-bfe7-444a25de0110" />
+
 
 - In the Actions section, click the New repository secret button.
 - This opens a window to add a new secret key-value pair.
@@ -1718,9 +1743,11 @@ jobs:
     - Displays a themed background image for a mordern look.
 - **User Experience**
     - Designed for clarity and smooth navigation so users can access key insights in one click.
+
  
       
 <img width="1289" height="705" alt="image" src="https://github.com/user-attachments/assets/a5d85f6a-c385-433c-9faa-6f2309b57a63" />
+
 
 -----------------------------
 
@@ -1769,6 +1796,8 @@ jobs:
 - **Dual Area Charts - Segment-wise Monthly Sales & Profit**
   - Data View : `segment_wise_monthly_sales_and_profit`
   - Purpose : Visualizes monthly trends for sales and profit across different customer segments.
+ 
+    
   <img width="1321" height="737" alt="image" src="https://github.com/user-attachments/assets/8add8f5b-7ceb-422c-9555-573bda344564" />
 
 -----------------------
@@ -1806,7 +1835,8 @@ jobs:
     - Yellow (10-20%) → Moderate margin, progressing toward target.
     - Green (20-40%) → Healthy profit margin, close to or exceeding target.
    
-    - 
+
+
    <img width="1320" height="733" alt="image" src="https://github.com/user-attachments/assets/2cae4843-1dc9-4a1e-b844-bb26b4314409" />
 
    ----------------------------
