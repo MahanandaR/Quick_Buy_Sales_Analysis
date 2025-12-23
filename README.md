@@ -1885,3 +1885,7 @@ jobs:
 ```
 
 -----------------------------
+
+
+## License
+This project is licensed under the MIT License. You are free to use and modify the code as needed.
