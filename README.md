@@ -3,7 +3,7 @@
 <img width="1320" height="741" alt="image" src="https://github.com/user-attachments/assets/6bd8f853-7916-4861-95a1-7b05dd6c50aa" />
 
 <h3><a href="https://app.powerbi.com/view?r=eyJrIjoiNTA2YWQwNTItYTY2OC00NjFkLWE4OGMtNmE1NjY0NzliMDFiIiwidCI6ImFlODc5NDljLTJhZjYtNDgxOS05MDY2LTE0OWMyMDcwYTRmMSJ9" target="_blank">
-  🔗 Click Here for Live Dashboard
+  👉 Click Here for Live Dashboard
 </a></h3>
 
 ---------------------------------------------------
@@ -1848,7 +1848,7 @@ jobs:
 
 
 <h2><a href="https://app.powerbi.com/view?r=eyJrIjoiNTA2YWQwNTItYTY2OC00NjFkLWE4OGMtNmE1NjY0NzliMDFiIiwidCI6ImFlODc5NDljLTJhZjYtNDgxOS05MDY2LTE0OWMyMDcwYTRmMSJ9" target="_blank">
-  🔗 Click Here for Live Dashboard
+  👉 Click Here for Live Dashboard
 </a></h2>
 
 
