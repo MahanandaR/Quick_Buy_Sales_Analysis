@@ -1840,9 +1840,10 @@ jobs:
    <img width="1320" height="733" alt="image" src="https://github.com/user-attachments/assets/2cae4843-1dc9-4a1e-b844-bb26b4314409" />
 
 
-<a href="https://app.powerbi.com/view?r=eyJrIjoiNTA2YWQwNTItYTY2OC00NjFkLWE4OGMtNmE1NjY0NzliMDFiIiwidCI6ImFlODc5NDljLTJhZjYtNDgxOS05MDY2LTE0OWMyMDcwYTRmMSJ9" target="_blank">
+
+<h2><a href="https://app.powerbi.com/view?r=eyJrIjoiNTA2YWQwNTItYTY2OC00NjFkLWE4OGMtNmE1NjY0NzliMDFiIiwidCI6ImFlODc5NDljLTJhZjYtNDgxOS05MDY2LTE0OWMyMDcwYTRmMSJ9" target="_blank">
   🔗 Click Here for Live Dashboard
-</a>
+</a></h2>
 
 
 ----------------------------
