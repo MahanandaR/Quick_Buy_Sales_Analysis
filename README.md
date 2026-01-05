@@ -1839,8 +1839,13 @@ jobs:
 
    <img width="1320" height="733" alt="image" src="https://github.com/user-attachments/assets/2cae4843-1dc9-4a1e-b844-bb26b4314409" />
 
-Click Here For Live Dashboard : <iframe title="Powerbi_dashboard" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNTA2YWQwNTItYTY2OC00NjFkLWE4OGMtNmE1NjY0NzliMDFiIiwidCI6ImFlODc5NDljLTJhZjYtNDgxOS05MDY2LTE0OWMyMDcwYTRmMSJ9" frameborder="0" allowFullScreen="true"></iframe>
-   ----------------------------
+
+<a href="https://app.powerbi.com/view?r=eyJrIjoiNTA2YWQwNTItYTY2OC00NjFkLWE4OGMtNmE1NjY0NzliMDFiIiwidCI6ImFlODc5NDljLTJhZjYtNDgxOS05MDY2LTE0OWMyMDcwYTRmMSJ9" target="_blank">
+  🔗 Click Here for Live Dashboard
+</a>
+
+
+----------------------------
 
    
 ## Folder Structure
