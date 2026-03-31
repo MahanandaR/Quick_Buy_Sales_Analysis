@@ -1,0 +1,37 @@
+category,month,total_sales,total_profit
+Furniture,Sep,200227.0,33758.0
+Furniture,Oct,188017.0,34547.0
+Furniture,Mar,224197.0,41216.0
+Office Supplies,Feb,532857.0,93991.0
+Technology,Jul,197905.0,34668.0
+Office Supplies,Dec,594344.0,103400.0
+Furniture,Aug,183455.0,33096.0
+Office Supplies,Jul,535449.0,98138.0
+Office Supplies,Jun,514327.0,94247.0
+Technology,Sep,180048.0,32765.0
+Technology,Dec,238091.0,41494.0
+Technology,Jun,211003.0,38455.0
+Office Supplies,Jan,593874.0,102679.0
+Technology,Aug,195821.0,34245.0
+Technology,Oct,240689.0,41287.0
+Technology,Jan,198051.0,36120.0
+Office Supplies,Mar,581646.0,98064.0
+Office Supplies,Aug,517637.0,91319.0
+Office Supplies,Sep,521528.0,92209.0
+Office Supplies,Oct,591409.0,104526.0
+Furniture,Nov,182792.0,31192.0
+Office Supplies,Nov,517118.0,88948.0
+Technology,May,189510.0,31504.0
+Furniture,Feb,152651.0,28362.0
+Office Supplies,Apr,531310.0,93862.0
+Furniture,Jan,180346.0,31419.0
+Furniture,Jun,183348.0,31570.0
+Technology,Nov,224327.0,39590.0
+Technology,Mar,174336.0,29725.0
+Technology,Feb,169411.0,28676.0
+Furniture,Apr,201960.0,36119.0
+Technology,Apr,242278.0,40937.0
+Furniture,Dec,213443.0,40135.0
+Office Supplies,May,585222.0,105174.0
+Furniture,Jul,169096.0,30341.0
+Furniture,May,184781.0,34099.0
